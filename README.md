@@ -1,4 +1,4 @@
 # pseudocoder
 CIE pseudocode interpreter
 
-Source code found in pseudocoder main directory.
+Source code found in pseudocoder sub-directory.
