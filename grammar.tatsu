@@ -1,0 +1,65 @@
+@@grammar :: PseudoCode
+
+program = @:instructions $ ;
+
+instructions = {instruction}*;
+
+instruction = @:if | @:assignment | @:for | @:declare |  @:output;
+
+@@keyword :: IF THEN ELSE ENDIF
+if = 'IF' expression 'THEN' instructions ['ELSE' instructions] 'ENDIF' ;
+
+@@keyword :: FOR TO STEP ENDFOR
+for = 'FOR' identifier assign expression 'TO' expression ['STEP' expression] instructions 'ENDFOR';
+
+@@keyword :: OUTPUT
+output = 'OUTPUT' expression;
+
+@@keyword :: DECLARE
+declare = 'DECLARE' identifier ':' expression;
+
+assignment = identifier assign expression;
+
+assign = '<-' | '←';
+
+expression =  @:arithmetic_expression | @:non_arithmetic_expression;
+
+arithmetic_expression = @:summing  ;
+
+non_arithmetic_expression =
+    '(' expression ')' |
+    boolean_expression |
+    literal |
+    identifier ;
+
+@@keyword :: AND OR
+boolean_expression = comparison | and | or;
+
+and = expression 'AND' expression;
+or = expression 'OR' expression;
+
+comparison = equal_to | not_equal_to | less_than | greater_than | less_than_or_equal_to | greater_than_or_equal_to;
+
+equal_to = expression '=' expression;
+not_equal_to = expression '<>' expression;
+less_than = expression '<' expression;
+greater_than = expression '>' expression;
+less_than_or_equal_to = expression '<=' expression;
+greater_than_or_equal_to = expression '>=' expression;
+
+
+integer_literal = /[1-9]\d*/ | '0' ;
+real_literal = /\d+.\d*/;
+
+number_literal = @:integer_literal | @:real_literal ;
+
+literal = @:number_literal ;
+
+summing = summing '+' summing | summing '-' summing | product;
+
+product = product '*' product | product '/' product | factor;
+
+factor = non_arithmetic_expression;
+
+@name
+identifier = /[A-Za-z_]\w*/ ;
