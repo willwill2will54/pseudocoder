@@ -1,3 +1,7 @@
 DECLARE stuff : INTEGER
+DECLARE i : INTEGER
 stuff <- 5
-OUTPUT stuff
+FOR i <- 1 TO 5
+    OUTPUT stuff
+    OUTPUT i
+ENDFOR

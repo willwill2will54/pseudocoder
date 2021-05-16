@@ -29,7 +29,6 @@ class VariableDeclaration(interfaces.instruction):
 
     def execute(self, lookup_namespace: 'NameSpace', action_namespace: 'NameSpace') -> None:
         data_type = self.__type.evaluate(lookup_namespace)
-        print(data_type)
         assert isinstance(data_type, interfaces.DataType)
         action_namespace.declare_variable(self.__id.get_identifier(), data_type)
 
@@ -100,7 +99,7 @@ class Output(interfaces.instruction):
 
 class ForLoop(interfaces.instruction):
     def __init__(
-            self, identifier: str,
+            self, identifier: Identifier,
             from_expression: interfaces.evaluable,
             to_expression: interfaces.evaluable,
             step_expression: interfaces.evaluable,
@@ -119,8 +118,7 @@ class ForLoop(interfaces.instruction):
         integer = lookup_namespace.lookup('INTEGER')
         assert isinstance(integer, interfaces.DataType)
         assert all(integer.is_type(x) for x in (frm, to, step))
-        action_namespace.declare_variable(self.__id, integer)
-        slot = action_namespace.lookup_variable(self.__id)
+        slot = action_namespace.lookup_variable(self.__id.get_identifier())
         for x in range(frm.to_python(), to.to_python() + 1, step.to_python()):
             slot.set(integer.from_python(x))
             for instruction in self.__instructions:

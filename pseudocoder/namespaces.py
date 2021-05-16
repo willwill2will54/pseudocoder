@@ -20,7 +20,6 @@ class Slot(Generic[SomeData]):
         self.__type = slot_type
 
     def set(self, value: SomeData) -> None:
-        print(f'setting{value}')
         assert self.__type.is_type(value)
         self.__stored = value
 
